@@ -2,7 +2,7 @@
 
 Github Pages Link to view our work:
 
-https://github.tamu.edu/pages/rvalde28/CSCE-315-Team-Project-3/
+https://rvalde28.github.io/TAMU-Insider-Project/
 
 
 To run the page you need to disable some protections in order for some of the API's to make requests. We tried working around them however the API didnt allow us to do so. We will show instructions on how to take off the https connection.
