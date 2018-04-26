@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Matchup</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment-with-locales.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment-with-locales.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.2.0/angular-moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.2.0/angular-moment.min.js"></script>
+    <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="navbar.css">
+    <script type="text/javascript">
+        $(function () {
+            $("#headernav").load("header.html");
+        });
+        var game=1744;
+        function changeGame(clicked_id){
+            return clicked_id;
+        }
+        var app = angular.module('statsApp', []);
+        var headers = {headers:  {
+                'Ocp-Apim-Subscription-Key': '35e47806445342269f0ee3bcb11787fa',
+            }
+        };
+        app.controller('statsCtrl', function($scope, $http) {
+            $http.get("https://api.fantasydata.net/v3/cfb/stats/json/LeagueHierarchy", headers)
+            .then(function mySuccess(response) {
+                $scope.secapi = response.data[17].Teams;
+            }, function myError(response) {
+                alert("ERROR");
+            });
+        });
+        function refresh(){
+            $(function () {
+                $.ajax({
+                    url: "https://api.fantasydata.net/v3/cfb/stats/JSON/BoxScore/" + game,
+                    beforeSend: function(xhrObj){
+                        xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","6b076992a99d4711bc8a97b375de48eb");
+                      },
+                      type: "GET",
+                    data: "",
+                }).done(function(data) {
+                    document.getElementById("hName").innerHTML = data[0].TeamGames[1].Name;
+                    document.getElementById("hScore").innerHTML = data[0].TeamGames[1].Score;
+                    document.getElementById("ha").innerHTML = data[0].TeamGames[1].HomeOrAway;
+                    document.getElementById("hPen").innerHTML = data[0].TeamGames[1].Penalties;
+                    document.getElementById("hPenY").innerHTML = data[0].TeamGames[1].PenaltyYards;
+                    document.getElementById("hpassY").innerHTML =  data[0].TeamGames[1].PassingYards;
+                    document.getElementById("hpassT").innerHTML = data[0].TeamGames[1].PassingTouchdowns;
+                    document.getElementById("hpassI").innerHTML = data[0].TeamGames[1].PassingInterceptions;
+                    document.getElementById("hpassR").innerHTML = data[0].TeamGames[1].PassingRating;
+                    document.getElementById("hpassA").innerHTML = data[0].TeamGames[1].PassingAttempts;
+                    document.getElementById("hpassC").innerHTML = data[0].TeamGames[1].PassingCompletionPercentage;
+                    document.getElementById("hrushY").innerHTML = data[0].TeamGames[1].RushingYards;
+                    document.getElementById("hrushT").innerHTML = data[0].TeamGames[1].RushingTouchdowns;
+                    document.getElementById("hrushL").innerHTML = data[0].TeamGames[1].RushingLong;
+                    document.getElementById("hpunts").innerHTML = data[0].TeamGames[1].Punts;
+                    document.getElementById("hpuntL").innerHTML = data[0].TeamGames[1].PuntLong;
+                    document.getElementById("hEpntM").innerHTML = data[0].TeamGames[1].ExtraPointsMade;
+                    document.getElementById("hFGP").innerHTML = data[0].TeamGames[1].FieldGoalPercentage;
+                    document.getElementById("hFGL").innerHTML = data[0].TeamGames[1].FieldGoalsLongestMade;
+                    document.getElementById("hFGMade").innerHTML = data[0].TeamGames[1].FieldGoalsMade;
+                    document.getElementById("hKickRY").innerHTML = data[0].TeamGames[1].KickReturnYards;
+                    document.getElementById("hFan").innerHTML = data[0].TeamGames[1].FantasyPoints;
+
+                    document.getElementById("aName").innerHTML = data[0].TeamGames[0].Name;
+                    document.getElementById("aScore").innerHTML = data[0].TeamGames[0].Score;
+                    document.getElementById("ah").innerHTML = data[0].TeamGames[0].HomeOrAway;
+                    document.getElementById("aPen").innerHTML = data[0].TeamGames[0].Penalties;
+                    document.getElementById("aPenY").innerHTML = data[0].TeamGames[0].PenaltyYards;
+                    document.getElementById("apassY").innerHTML =  data[0].TeamGames[0].PassingYards;
+                    document.getElementById("apassT").innerHTML = data[0].TeamGames[0].PassingTouchdowns;
+                    document.getElementById("apassI").innerHTML = data[0].TeamGames[0].PassingInterceptions;
+                    document.getElementById("apassR").innerHTML = data[0].TeamGames[0].PassingRating;
+                    document.getElementById("apassA").innerHTML = data[0].TeamGames[0].PassingAttempts;
+                    document.getElementById("apassC").innerHTML = data[0].TeamGames[0].PassingCompletionPercentage;
+                    document.getElementById("arushY").innerHTML = data[0].TeamGames[0].RushingYards;
+                    document.getElementById("arushT").innerHTML = data[0].TeamGames[0].RushingTouchdowns;
+                    document.getElementById("arushL").innerHTML = data[0].TeamGames[0].RushingLong;
+                    document.getElementById("apunts").innerHTML = data[0].TeamGames[0].Punts;
+                    document.getElementById("apuntL").innerHTML = data[0].TeamGames[0].PuntLong;
+                    document.getElementById("aEpntM").innerHTML = data[0].TeamGames[0].ExtraPointsMade;
+                    document.getElementById("aFGP").innerHTML = data[0].TeamGames[0].FieldGoalPercentage;
+                    document.getElementById("aFGL").innerHTML = data[0].TeamGames[0].FieldGoalsLongestMade;
+                    document.getElementById("aFGMade").innerHTML = data[0].TeamGames[0].FieldGoalsMade;
+                    document.getElementById("aKickRY").innerHTML = data[0].TeamGames[0].KickReturnYards;
+                    document.getElementById("aFan").innerHTML = data[0].TeamGames[0].FantasyPoints;
+                })
+                .fail(function() {
+                    alert("error");
+                });
+            });
+        }
+        refresh();
+        function newGame(clicked_id){
+            game = changeGame(clicked_id);
+            refresh();
+        }
+    </script>
+    <style>
+        body { margin:0; }
+        * {
+            box-sizing: border-box;
+            font-family: arial, sans-serif;
+        }
+        .button {
+            background-color: #800000;
+            border: none;
+            color: white;
+            text-align: left;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px;
+            cursor: pointer;
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+            width: 100px;
+        }
+        .button:hover {
+            background-color: #ddd;
+            color: white;
+        }
+        .column {
+            float: left;
+            padding: 5px;
+        }
+        .home{
+          width: 25%;
+          text-align: center;
+        }
+        .rival{
+          width: 25%;
+          text-align: center;
+        }
+        .allRival{
+          width: 10%;
+          text-align: center;
+        }
+        .ranking{
+          width: 10%;
+          text-align: justify;
+        }
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+        p:nth-child(odd) { background: #fff; }
+        p:nth-child(even) { background: #fff; }
+        .parallax { 
+            background-image: url("images/aggiefootball.jpg");
+            height: 300px; 
+            background-attachment: fixed;
+            background-position: top;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .matchup {
+            text-align: center;
+            font-family: Nanum Myeongjo;
+            font-size: 40px;
+            font-weight: 700;
+        }
+    </style>
+    </head>
+
+    <body>
+        <div id="headernav"></div>
+        <div class="matchup">THE MATCHUP</div>
+        <br />
+        <div class="row">
+            <div class="column home" style="background-color:#eee;">
+                <h2 id="ha" style="background-color:#333333;color:white"></h2>
+                <h3 id="hName"></h3>
+                <p id="hScore"> </p>
+                <p id="hPen"> </p>
+                <p id="hPenY"> </p>
+                <p id="hpassY"> </p>
+                <p id="hpassT"> </p>
+                <p id="hpassI"> </p>
+                <p id="hpassR"> </p>
+                <p id="hpassA"> </p>
+                <p id="hpassC"> </p>
+                <p id="hrushY"> </p>
+                <p id="hrushT"> </p>
+                <p id="hrushL"> </p>
+                <p id="hpunts"> </p>
+                <p id="hpuntL"> </p>
+                <p id="hEpntM"> </p>
+                <p id="hFGP"> </p>
+                <p id="hFGL"> </p>
+                <p id="hFGMade"> </p>
+                <p id="hKickRY"> </p>
+                <p id="hFan"> </p>
+            </div>
+            <div class="column mid" style="background-color:#eee;">
+                <h2 align="center" style="background-color:#333333; color:white"> Locality </h2>
+                <h3 align="center"> Versus </h3>
+                <p align="center"> Score </p>
+                <p align="center"> Penalties </p>
+                <p align="center"> Penanlty Yards </p>
+                <p align="center"> Passing Yards</p>
+                <p align="center"> Passing Touchdowns </p>
+                <p align="center"> Passing Interceptions </p>
+                <p align="center"> Passing Rating</p>
+                <p align="center"> Passing Attempts </p>
+                <p align="center"> Passing Completion Percentage</p>
+                <p align="center"> Rushing Yards</p>
+                <p align="center"> Rushing Touchdowns</p>
+                <p align="center"> Longest Rush</p>
+                <p align="center"> Punts </p>
+                <p align="center"> Longest Punt</p>
+                <p align="center"> Extra Points Made</p>
+                <p align="center"> Field Goal Percentage </p>
+                <p align="center"> Longest Field Goal Made</p>
+                <p align="center"> Field Goals Made </p>
+                <p align="center"> Kick Return Yards</p>
+                <p align="center"> Fantasy Points </p>
+            </div>
+            <div class="column rival" style="background-color:#eee;">
+                <h2 id="ah" style="background-color:#333333; color:white"></h2>
+                <h3 id="aName"></h3>
+                <p id="aScore"> </p>
+                <p id="aPen"> </p>
+                <p id="aPenY"> </p>
+                <p id="apassY"> </p>
+                <p id="apassT"> </p>
+                <p id="apassI"> </p>
+                <p id="apassR"> </p>
+                <p id="apassA"> </p>
+                <p id="apassC"> </p>
+                <p id="arushY"> </p>
+                <p id="arushT"> </p>
+                <p id="arushL"> </p>
+                <p id="apunts"> </p>
+                <p id="apuntL"> </p>
+                <p id="aEpntM"> </p>
+                <p id="aFGP"> </p>
+                <p id="aFGL"> </p>
+                <p id="aFGMade"> </p>
+                <p id="aKickRY"> </p>
+                <p id="aFan"> </p>
+            </div>
+            <div class="column allRival" style="background-color:#fff;">
+                <button class = "button" id= "1744" onClick="newGame(this.id)"> UCLA </button><br>
+                <button class = "button" id= "2522" onClick="newGame(this.id)")> Nicholls State </button><br>
+                <button class = "button" id= "1768" onClick="newGame(this.id)"> LA-Lafayette </button><br>
+                <button class = "button" id= "1770" onClick="newGame(this.id)"> Arkansas </button><br>
+                <button class = "button" id= "1785" onClick="newGame(this.id)"> South Carolina </button><br>
+                <button class = "button" id= "1790" onClick="newGame(this.id)"> Alabama </button><br>
+                <button class = "button" id= "1793" onClick="newGame(this.id)"> Florida </button><br>
+                <button class = "button" id= "1809" onClick="newGame(this.id)"> MS State </button><br>
+                <button class = "button" id= "1816" onClick="newGame(this.id)"> Auburn </button><br>
+                <button class = "button" id= "1824" onClick="newGame(this.id)"> New Mexico </button><br>
+                <button class = "button" id= "1829" onClick="newGame(this.id)"> Mississippi </button><br>
+                <button class = "button" id= "1838" onClick="newGame(this.id)"> LSU </button><br>
+            </div>
+            <div class="column ranking" style="background-color:#fff;">
+                <div ng-app="statsApp" ng-controller="statsCtrl">
+                <h4>SEC West Records</h4>
+                <table>
+                    <tr>
+                        <th>Team</th>
+                        <th>Conference</th>
+                        <th>Overall</th>
+                    </tr>
+                    <tr ng-repeat="team in secapi">
+                        <td><span>{{ team.School }}</span></td>
+                        <td><span>{{ team.ConferenceWins }}</span> - {{ team.ConferenceLosses }}</span></td>
+                        <td><span>{{ team.Wins }}</span> - {{ team.Losses }}</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

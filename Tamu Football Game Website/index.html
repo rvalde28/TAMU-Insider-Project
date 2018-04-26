@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Aggie Football</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment-with-locales.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment-with-locales.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.2.0/angular-moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.2.0/angular-moment.min.js"></script>
+    <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="navbar.css">
+    <script>
+    	$(function () {
+			$("#headernav").load("header.html");
+		});
+        var app = angular.module('newsApp', ['angularMoment']);
+        var headers = {headers:  {
+		        'Ocp-Apim-Subscription-Key': '35e47806445342269f0ee3bcb11787fa',
+		    }
+		};
+        app.controller('newsCtrl', function($scope, $http) {
+            $http.get("https://newsapi.org/v2/top-headlines?sources=espn&apiKey=d008b41723e147abbbec6d6d6bd07f9d")
+            .then(function mySuccess(response) {
+                $scope.newsapi = response.data.articles;
+            }, function myError(response) {
+                $scope.newsapi = response.statusText;
+            });
+            $http.get("https://api.fantasydata.net/v3/cfb/stats/json/LeagueHierarchy", headers)
+            .then(function mySuccess(response) {
+            	$scope.secapi = response.data[17].Teams;
+            }, function myError(response) {
+            	alert("ERROR");
+            });
+            $http.get("https://api.fantasydata.net/v3/cfb/stats/json/Players/TXAM", headers)
+            .then(function mySuccess(response) {
+            	$scope.teamapi = response.data;
+            	$scope.status = status;
+            }, function myError(response) {
+            	alert("ERROR");
+            });
+        });
+        function status(stat) {
+        	if(stat == "ACT") {
+        		return "Active";
+        	} else {
+        		return "Not Active";
+        	}
+        }
+    </script>
+    <style>
+        body {
+            margin:0;
+            font-family: arial, sans-serif;
+        }
+        .calendarnotif {
+            margin-top: 50px;
+            margin-left: 20px;
+            font-size: 12px;
+            padding: 10px 10px 10px 10px;
+            background-color: #E6E6E6;
+            box-shadow: 4px 4px 3px 1px #DBDBDB;
+        }
+        .standings {
+            width: 30%
+            margin-top: 50px;
+            margin-left: 20px;
+            font-size: 12px;
+            padding: 10px 10px 10px 10px;
+            background-color: #E6E6E6;
+            box-shadow: 4px 4px 3px 1px #DBDBDB;
+        }
+        .teamstats {
+            width: 60%
+            margin-top: 50px;
+            margin-left: 20px;
+            font-size: 12px;
+            padding: 10px 10px 10px 10px;
+            background-color: #E6E6E6;
+            box-shadow: 4px 4px 3px 1px #DBDBDB;
+        }
+        tr, td {
+            border: 1px solid #E6E6E6;
+        }
+        td {
+            box-shadow: 7px 7px 5px 5px #E6E6E6;
+            padding: 0px 20px 20px 20px;
+            overflow: auto;
+        }
+        td a {
+		    display:block;
+		    width:100%;
+		    color: #660000;
+		}
+        .newstable {
+            margin-top: 10px;
+            border-spacing: 20px;
+            border-collapse: separate;
+            padding: 20px 20px 20px 20px;
+        }
+        .newstitle {
+            float: top;
+            padding: 20px;
+            border-bottom: 1px solid #E6E6E6;
+            font-family: 'Adobe Devanagari';
+            font-size: 20px;
+        }
+        .newsauthor {
+            float: bottom;
+            padding: 20px;
+            border-bottom: 1px solid #E6E6E6;
+            font-family: 'Adobe Devanagari';
+            font-size: 16px;
+        }
+        .newsphoto {
+        	margin-top: -50px;
+        	margin-bottom: -50px;
+            width: 100%;
+            float: left;
+        }
+        .newsdes {
+        	margin-top: -50px;
+        	margin-bottom: -50px;
+            float: left;
+            color: #808080;
+            text-align: justify;
+            font-family: 'Abadi MT Condensed Light';
+            font-size: 14px;
+            display: inline-block;
+        }
+        p.date {
+            text-transform: uppercase;
+        }
+        .container-fluid {
+            padding: 0px;
+        }
+        .row {
+            padding: 0px;
+        }
+        .col {
+        	padding: 0px;
+        }
+        .banner {
+        	margin: 0px;
+        	position: absolute;
+        	width: 100%;
+        }
+        .parallax { 
+		    background-image: url("images/aggiefootball.jpg");
+		    height: 300px; 
+		    background-attachment: fixed;
+		    background-position: top;
+		    background-repeat: no-repeat;
+		    background-size: cover;
+		}
+    </style>
+    </head>
+    	
+    <body>
+    	<div id="headernav"></div>
+		<div ng-app="newsApp" ng-controller="newsCtrl"> 
+	        <div class="container-fluid">
+	            <div class="row">
+	                <div class="col-sm-4">
+	                    <div class="calendarnotif">
+	                        <p><b>!</b> Next game: Texas A&M vs. Wake Forest</p>
+	                    </div>
+	                    <p></p>
+	                    <div class="standings">
+	                    	<h4><u>Standings</u></h4>
+	                    	<table>
+		                    	<tr ng-repeat="team in secapi">
+		                    		<td>
+		                        		<div class="col-sm-7">
+			                    			<p><b><span>{{ team.School }}</b></span>
+		                    			</div>
+		                    			<div class="col-sm-5">
+		                    				<span>{{ team.Wins }} - {{ team.Losses }}</span></p>
+		                    			</div>
+		                    		</td>
+			                    </tr>
+			                </table>
+	                    </div>
+	                    <p></p>
+	                    <div class="standings">
+	                        <h4><u>A&M Aggies Stats</u></h4>
+	                        <table>
+	                        	<tr ng-repeat="player in teamapi | limitTo:15 | limitTo:-15">
+	                        		<td>
+		                        		<div class="col-sm-5">
+		                        			<p><b><span>{{ player.Jersey }} - {{ player.PositionCategory }}</b></span>
+		                        		</div>
+		                        		<div class="col-sm-7">
+		                        			<span>{{ player.FirstName }} {{ player.LastName }}</span></p>
+		                        		</div>
+	                        		</td>
+	                        	</tr>
+	                        </table>
+	                    </div>
+	                </div>
+	                <div class="col-sm-6">
+	                    <table class="newstable">
+	                        <tr ng-repeat="article in newsapi">
+	                            <td>
+	                                <div class="newstitle">
+	                                    <a href="{{ article.url }}">“ {{ article.title }} „</a>
+	                                </div>
+	                                <div class="container-fluid">
+	                                    <div class="row">
+	                                        <div class="col-sm-6">
+	                                            <div class="photocon">
+	                                                <img src="{{ article.urlToImage }}" alt="Image not Found" class="newsphoto" />
+	                                            </div>
+	                                        </div>
+	                                        <div class="col-sm-6">
+	                                            <div class="newsdes">
+	                                                <p class="date"><span>{{ article.publishedAt | amDateFormat:'DD MMM YYYY'}}</span></p> &mdash; {{ article.description }}
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </td>
+	                    </table>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+    </body>
+</html>

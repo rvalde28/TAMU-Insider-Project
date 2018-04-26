@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <title>Maps</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment-with-locales.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment-with-locales.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.2.0/angular-moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.2.0/angular-moment.min.js"></script>
+    <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="navbar.css">
+    
+<!--Javascript code for map functionality. Has all of the markers needed for the locations of the Texas A&M fooball games
+The Google map API in order for the map to make pull requests-->
+	<script>
+        $(function () {
+            $("#headernav").load("header.html");
+        });
+        $(function () {
+            $("#headernav").load("header.html");
+        });
+        var markers = [
+        {
+            "title": 'Kyle Field, Texas A&M',
+            "lat": '30.6103',
+            "lng": '-96.3398'
+        },
+        {
+            "title": 'Rose Bowl, UCLA',
+            "lat": '34.1613',
+            "lng": '-118.1676'
+        },
+        {
+            "title": 'AT&T Stadium Arlington',
+            "lat": '32.7473',
+            "lng": '-97.0945'
+        },
+        {
+            "title": 'Ben Hill Griffin Stadium, FLorida',
+            "lat": '29.6499',
+            "lng": '-82.3486'
+        },
+        {
+            "title": 'Vaught-Hemmingway Stadium Ole Miss',
+            "lat": '34.3620',
+            "lng": '-89.5342'
+            
+        },
+        {
+            "title": "Tiger Stadium, LSU",
+            "lat": '30.4120',
+            "lng": '-91.1838'
+        }
+        ];
+        window.onload = function () {
+            LoadMap();
+        };
+		<!--script to get the iframe to re-load the weather widget when a button is pressed-->
+        function loadFrame (elm){
+            var frame1 = document.getElementById('frame1');
+            frame1.src = elm.dataset.src;
+        }
+        var map;
+        var marker;
+        function LoadMap() {
+            var mapOptions = {
+                center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
+                zoom: 16,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+        };
+        function SetMarker(evt, position) {
+            if (marker != null) {
+                marker.setMap(null);
+            }
+            var data = markers[position];
+            var myLatlng = map.setCenter(new google.maps.LatLng(data.lat, data.lng));
+            var mapOptions = {
+                zoom: 4,
+                center:myLatlng
+            }
+            marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                title: data.title
+            });
+            var i, tablinks;
+			//resets the tabs on the right side of screen and highlights the active one using the stylesheets code
+
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            evt.currentTarget.className += " active";
+            document.getElementById("defaultOpen").click();
+        };
+    </script>
+	  <!-- Style code for the map format-->
+    <style>
+        #map {
+            height: 100vh;
+    		clear: right;
+		}
+       .tab {
+        overflow: auto;
+        max-height: 100vh;
+       }
+       .parallax { 
+            background-image: url("images/aggiefootball.jpg");
+            height: 300px; 
+            background-attachment: fixed;
+            background-position: top;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>  
+    </head>
+
+    <body>
+	<!--Code for all of the objects and buttons of the left side of the screen-->
+        <div id="headernav"></div>
+		<!--Weather widget that displays the weather information for that city--> 
+        <div class="tab">
+            <div class="wi" >
+                <iframe id="frame1" src="http://api.openweathermap.org/data/2.5/weather?zip=91103,us&units=imperial&mode=html&APPID=63bd6a390abc99d2645e46ca8a26b70d" width="100%" style="background: white" scrolling="no"></iframe>
+            </div>
+			
+			 <!--Buttons change the location of the map and the update the weather information depending on the button pressed-->
+
+            <button type="button" class="tablinks" height="2em" value="1" onclick="loadFrame(this); SetMarker(event, this.value)" data-src="http://api.openweathermap.org/data/2.5/weather?zip=91103,us&units=imperial&mode=html&APPID=63bd6a390abc99d2645e46ca8a26b70d" >Texas A&M @ UCLA </button>
+            <button type="button" class="tablinks" height="50%" value="0" onclick="loadFrame(this); SetMarker(event, this.value)" data-src="http://api.openweathermap.org/data/2.5/weather?zip=77840,us&units=imperial&mode=html&APPID=63bd6a390abc99d2645e46ca8a26b70d">Nicholls vs Texas A&M</button>
+            <button type="button" class="tablinks" height="50%" value="2" onclick="loadFrame(this); SetMarker(event, this.value)" data-src="http://api.openweathermap.org/data/2.5/weather?zip=76011,us&units=imperial&mode=html&APPID=63bd6a390abc99d2645e46ca8a26b70d">Arkansas vs Texas A&M</button>
+            <button type="button" class="tablinks" height="50%" value="0" onclick="loadFrame(this); SetMarker(event, this.value)" data-src="http://api.openweathermap.org/data/2.5/weather?zip=77840,us&units=imperial&mode=html&APPID=63bd6a390abc99d2645e46ca8a26b70d">South Carolina vs Texas A&M</button>
+            <button type="button" class="tablinks" height="50%" value="0" onclick="loadFrame(this); SetMarker(event, this.value)" data-src="http://api.openweathermap.org/data/2.5/weather?zip=77840,us&units=imperial&mode=html&APPID=63bd6a390abc99d2645e46ca8a26b70d">Alabama vs Texas A&M</button>
+            <button type="button" class="tablinks" height="50%" value="3" onclick="loadFrame(this); SetMarker(event, this.value)" data-src="http://api.openweathermap.org/data/2.5/weather?zip=32611,us&units=imperial&mode=html&APPID=63bd6a390abc99d2645e46ca8a26b70d">Texas A&M @ Florida</button>
+            <button type="button" class="tablinks" height="50%" value="0" onclick="loadFrame(this); SetMarker(event, this.value)" data-src="http://api.openweathermap.org/data/2.5/weather?zip=77840,us&units=imperial&mode=html&APPID=63bd6a390abc99d2645e46ca8a26b70d">Mississippi State vs Texas A&M</button>
+            <button type="button" class="tablinks" height="50%" value="0" onclick="loadFrame(this); SetMarker(event, this.value)" data-src="http://api.openweathermap.org/data/2.5/weather?zip=77840,us&units=imperial&mode=html&APPID=63bd6a390abc99d2645e46ca8a26b70d">Auburn vs Texas A&M</button>
+            <button type="button" class="tablinks" height="50%" value="0" onclick="loadFrame(this); SetMarker(event, this.value)" data-src="http://api.openweathermap.org/data/2.5/weather?zip=77840,us&units=imperial&mode=html&APPID=63bd6a390abc99d2645e46ca8a26b70d">New Mexico vs Texas A&M</button>
+            <button type="button" class="tablinks" height="50%" value="4" onclick="loadFrame(this); SetMarker(event, this.value)" data-src="http://api.openweathermap.org/data/2.5/weather?zip=38655,us&units=imperial&mode=html&APPID=63bd6a390abc99d2645e46ca8a26b70d">Texas A&M @ Ole Miss</button>
+            <button type="button" class="tablinks" height="50%" value="5" onclick="loadFrame(this); SetMarker(event, this.value)" data-src="http://api.openweathermap.org/data/2.5/weather?zip=70893,us&units=imperial&mode=html&APPID=63bd6a390abc99d2645e46ca8a26b70d">Texas A&M @ LSU</button>
+        </div>
+        <h3 align="center">Next Game at ...</h3>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcuCUkmq7e57Ma5JWsVteGJIlGOKdCw3M"></script>
+		
+		<!--Loads the map on the screen using the stylesheet code and the java script code-->
+		<div class="map" id="dvMap"></div>
+    </body>
+</html>

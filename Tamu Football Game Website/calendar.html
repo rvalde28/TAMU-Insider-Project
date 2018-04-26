@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Aggie Football</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment-with-locales.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment-with-locales.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.2.0/angular-moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.2.0/angular-moment.min.js"></script>
+    <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="navbar.css">
+    <script>
+        $(function () {
+            $("#headernav").load("header.html");
+        });
+    </script>
+    <style>
+        body {
+            margin:0;
+            font-family: arial, sans-serif;
+        }
+        .column {
+            float: left;
+            padding: 10px;
+        }
+        .calendar{
+            width: 55%;
+        }
+        .options{
+            width: 15%;
+        }
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .parallax { 
+            background-image: url("images/aggiefootball.jpg");
+            height: 300px; 
+            background-attachment: fixed;
+            background-position: top;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        p.desc {
+            font-size: 16px;
+            margin-top: 100px;
+            margin-left: -100px;
+            float: left;
+            width: 80%;
+        }
+    </style>
+    </head>
+
+    <body>
+    	<div id="headernav"></div>
+        <div class="row">
+            <div class="col-sm-9">
+                <div class="column calendar">
+                    <h2 style="padding-left:20px">Calendar</h2>
+                    <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=n3f8u4no366drjhnjo0e27lsai698r1k%40import.calendar.google.com&amp;color=%23691426&amp;src=tamu.edu_mlcukq1et6ifmctkodn2neipq0%40group.calendar.google.com&amp;color=%2329527A&amp;ctz=America%2FChicago"style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <p class="desc">Keep up with the latest games!
+                    <br />
+                    <br />
+                    The calendar will show you all the upcoming games, including the location and time, so you won't miss an Aggie game!
+                    <br />
+                    <br />
+                    <img src="images/gigem.jpg" width="70px">
+                </p>
+            </div>
+        </div>
+    </body>
+</html>
